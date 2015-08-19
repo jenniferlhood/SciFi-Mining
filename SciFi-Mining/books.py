@@ -51,7 +51,7 @@ for filename in files:
             
         elif "Title:" in l:
             title = l.lstrip("Title:")
-            title = " ".join(title.rstrip("\r\n"))
+            title = "".join(title.rstrip("\r\n"))
             
         elif "Author:" in l:
             author = l.lstrip("Author:")
@@ -85,25 +85,36 @@ meta_data = open("meta.txt","w")
 meta_data.write("Wordcount \t filename \t author \t title \n")
     
     
-    
-    
+#find the set of most common words by taking the intersection of the 200 most common words in all books in library
+all_common = set(i[0] for i in book_list[0].words.most_common(1000))
+  
+ 
 for b in book_list:
     #she:he ratio
-    gender = b.words['she']/b.words['he']
+    if b.words['she']>0:
+        gender = b.words['he']/b.words['she']
+    else:
+        gender = 0   
         
-        
-    b.words.most_common()
+    b_common = set(i[0] for i in b.words.most_common(1000)) #top
+    
+    all_common = all_common & b_common
         
     line = str(str(len(b.words))+"\t"+b.filename+"\t"+b.author+"\t"+b.title+"\t"+str(gender)+"\n")
     meta_data.write(line)
 
+
 meta_data.close()
-    
-    
+print all_common    
+
+
+a = set(['', 'and', 'by', 'that', 'this', 'of', 'it', 'long', 'the', 'to', 'as', 'other', 'A', 'a', 'in', 'be', 'on', 'or', 'if'])
+
+b = set(['', 'replied', 'all', 'just', 'less', 'being', 'indeed', 'over', 'What', 'years', 'four', 'course', 'through', 'still', 'yet', 'seemed', 'No', 'had', 'should', 'better', 'to', 'only', 'those', 'under', 'he', 'might', 'On', 'them', 'his', 'return', 'means', 'very', 'possible', 'soon', 'cannot', 'every', 'know', 'they', 'half', 'not', 'world', 'now', 'him', 'nor', 'like', 'did', 'these', 'she', 'each', 'small', 'become', 'where', 'right', 'For', 'there', 'some', 'back', 'see', 'been', 'are', 'our', 'out', 'even', 'what', 'said', 'for', 'away', 'find', 'case', 'enough', 'then', 'between', 'new', 'before', 'ever', 'He', 'be', 'we', 'who', 'And', 'This', 'never', 'here', 'quite', 'let', 'found', 'come', 'by', 'on', 'great', 'last', 'her', 'of', 'could', 'days', 'against', 'times', 'place', 'or', 'first', 'own', 'point', 'into', 'There', 'one', 'down', 'done', 'But', 'another', 'open', 'your', 'once', 'little', 'long', 'from', 'would', 'few', 'give', 'question', 'three', 'least', 'their', 'much', 'too', 'way', 'time', 'themselves', 'hundred', 'was', 'more', 'life', 'himself', 'form', 'that', 'about', 'but', 'part', 'with', 'than', 'present', 'must', 'me', 'has', 'word', 'this', 'when', 'up', 'us', 'will', 'matter', 'while', 'can', 'were', 'my', 'and', 'do', 'almost', 'is', 'am', 'it', 'an', 'say', 'at', 'have', 'in', 'seen', 'You', 'made', 'any', 'as', 'if', 'again', 'no', 'make', 'able', 'same', 'how', 'other', 'take', 'which', 'you', 'many', 'day', 'either', 'A', 'may', 'shall', 'I', 'after', 'upon', 'most', 'moment', 'two', 'men', 'nothing', 'such', 'The', 'a', 'All', 'off', 'light', 'well', 'It', 'think', 'thought', 'As', 'without', 'so', 'At', 'In', 'far', 'the', 'left', 'its', 'order', 'came', 'If'])
     
     
      
-         
+    
         
         
             
